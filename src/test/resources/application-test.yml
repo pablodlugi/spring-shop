@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=MYSQL #mem = in_memory | file = plik zostanie stworzony
+  flyway:
+    enabled: false
+file:
+  product: target

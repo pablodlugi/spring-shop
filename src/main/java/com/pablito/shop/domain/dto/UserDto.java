@@ -1,0 +1,42 @@
+package com.pablito.shop.domain.dto;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.pablito.shop.validator.PasswordValid;
+import com.pablito.shop.validator.group.Create;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL) //jesli pole bedzie null to nie zostanie dodoane do json
+@Builder
+@PasswordValid(groups = Create.class)
+public class UserDto {
+    private Long id;
+
+    @NotBlank(message = "Pole USERNAME nie może być puste")
+    private String username;
+
+    @NotBlank(groups = Create.class)
+    private String password;
+
+    private String confirmedPassword;
+
+    @NotBlank
+    @Email
+    private String email;
+
+    @NotBlank
+    private String firstName;
+
+    @NotBlank
+    private String lastName;
+
+    private Integer revisionNumber;
+}
