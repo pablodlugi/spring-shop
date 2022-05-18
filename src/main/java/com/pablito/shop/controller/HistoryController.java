@@ -5,6 +5,8 @@ import com.pablito.shop.domain.dto.UserDto;
 import com.pablito.shop.mapper.HistoryMapper;
 import com.pablito.shop.repository.ProductRepository;
 import com.pablito.shop.repository.UserRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,12 +23,14 @@ public class HistoryController {
 
     @GetMapping("/users/{id}")
     @PreAuthorize("isAuthenticated() && hasRole('ADMIN')")
+    @Operation(security = @SecurityRequirement(name = "BEARER AUT TOKEN"))
     public Page<UserDto> getUserHistoryById(@PathVariable Long id, @RequestParam int page, @RequestParam int size){
         return userRepository.findRevisions(id, PageRequest.of(page, size)).map(historyMapper::mapToUserDto);
     }
 
     @GetMapping("/products/{id}")
     @PreAuthorize("isAuthenticated() && hasRole('ADMIN')")
+    @Operation(security = @SecurityRequirement(name = "BEARER AUT TOKEN"))
     public Page<ProductDto> getProductHistoryById(@PathVariable Long id, @RequestParam int page, @RequestParam int size) {
         return productRepository.findRevisions(id, PageRequest.of(page, size)).map(historyMapper::mapToProductDto);
     }

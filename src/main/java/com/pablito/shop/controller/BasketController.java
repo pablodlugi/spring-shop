@@ -29,21 +29,25 @@ public class BasketController {
     }
 
     @GetMapping
+    @Operation(security = @SecurityRequirement(name = "BEARER AUT TOKEN"))
     public List<ProductDto> getAllProductsFromBasket() {
         return productMapper.toDtoList(basketService.getAllProductsFromBasket());
     }
 
     @DeleteMapping("{productId}")
+    @Operation(security = @SecurityRequirement(name = "BEARER AUT TOKEN"))
     public void deleteFromBasket(@PathVariable Long productId) {
         basketService.deleteFromBasket(productId);
     }
 
     @DeleteMapping
+    @Operation(security = @SecurityRequirement(name = "BEARER AUT TOKEN"))
     public void clearBasket(){
         basketService.clearBasket();
     }
 
     @PutMapping
+    @Operation(security = @SecurityRequirement(name = "BEARER AUT TOKEN"))
     public void overrideProductQuantity(@RequestBody BasketDto basketDto) {
         basketService.overrideProductQuantity(basketDto.getProductId(), basketDto.getQuantity());
     }

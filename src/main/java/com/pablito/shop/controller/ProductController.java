@@ -4,6 +4,8 @@ import com.pablito.shop.domain.dto.ProductDto;
 import com.pablito.shop.mapper.ProductMapper;
 import com.pablito.shop.service.ProductService;
 import com.pablito.shop.validator.FileExtensionValid;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,6 +30,7 @@ public class ProductController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ADMIN')")
+    @Operation(security = @SecurityRequirement(name = "BEARER AUT TOKEN"))
     public ProductDto saveProduct(@RequestPart @Valid ProductDto product, @FileExtensionValid @Valid @RequestPart MultipartFile image) { //Valid wlacza walidacje z DTO NotBlank NOTNull
         return productMapper.toDto(productService.save(productMapper.toDao(product), image));
     }
@@ -40,12 +43,14 @@ public class ProductController {
     @Validated
     @PutMapping
     @PreAuthorize("isAuthenticated() && hasRole('ADMIN')")
+    @Operation(security = @SecurityRequirement(name = "BEARER AUT TOKEN"))
     public ProductDto updateProductById(@RequestPart @Valid ProductDto product, @RequestPart Long id, @FileExtensionValid @Valid @RequestPart MultipartFile image) {
         return productMapper.toDto(productService.update(productMapper.toDao(product), id, image));
     }
 
     @DeleteMapping("{id}")
     @PreAuthorize("isAuthenticated() && hasRole('ADMIN')")
+    @Operation(security = @SecurityRequirement(name = "BEARER AUT TOKEN"))
     public void deleteProductById(@PathVariable Long id) {
         productService.delete(id);
     }
