@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -15,9 +16,9 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL) //jesli pole bedzie null to nie zostanie dodoane do json
-@Builder
+@SuperBuilder
 @PasswordValid(groups = Create.class)
-public class UserDto {
+public class UserDto extends AuditableDto {
     private Long id;
 
     @NotBlank(message = "Pole USERNAME nie może być puste")

@@ -4,6 +4,8 @@ import com.pablito.shop.flyweight.generic.GenericFactory;
 import com.pablito.shop.flyweight.generic.strategy.file.FileGeneratorStrategy;
 import com.pablito.shop.flyweight.model.FileType;
 import com.pablito.shop.flyweight.standard.GeneratorFactory;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -22,11 +24,13 @@ public class FileController {
     private final GenericFactory<FileType, FileGeneratorStrategy> genericFactory;
 
     @GetMapping
+    @Operation(security = @SecurityRequirement(name = "BEARER AUT TOKEN"))
     public void generateFile(@RequestParam FileType fileType) {
         generatorFactory.getStrategy(fileType).generateFile();
     }
 
     @GetMapping("/generic")
+    @Operation(security = @SecurityRequirement(name = "BEARER AUT TOKEN"))
     public ResponseEntity<byte[]> generateGenericFile(@RequestParam FileType fileType) {
         byte[] file = genericFactory.getStrategy(fileType).generateFile();
         HttpHeaders headers = new HttpHeaders();

@@ -1,5 +1,7 @@
 package com.pablito.shop.security;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import io.jsonwebtoken.Jwts;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,19 +38,18 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             return;
         }
 
-        var claims = Jwts.parser()
-                .setSigningKey("masakracja")
-                .parseClaimsJws(token.substring(7))
-                .getBody();
+        var decodedJWT = JWT.require(Algorithm.HMAC512("masakracja"))
+                .build()
+                .verify(token.split(" ")[1]);
 
-        var email = claims.getSubject();
+        var email = decodedJWT.getSubject();
 
         if (email == null) {
             response.setStatus(401); //unauthorized //403 forbidden, access denied
             return;
         }
 
-        var authorities = claims.get("authorities", String.class); //role połączone po przecinku
+        var authorities = decodedJWT.getClaims().get("authorities").as(String.class); //role połączone po przecinku
 
         var grantedAuthorities = new ArrayList<SimpleGrantedAuthority>();
 

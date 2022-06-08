@@ -47,7 +47,7 @@ public class LoginServiceImpl implements LoginService {
         JAVA JWT
          */
         String token = JWT.create()
-                .withExpiresAt(new Date(System.currentTimeMillis() + 1000 + 60 + 60 * 24))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
                 .withSubject(authentication.getName())
                 .withClaim("authorities", authentication.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority)

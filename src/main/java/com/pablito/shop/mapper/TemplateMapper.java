@@ -5,7 +5,7 @@ import com.pablito.shop.domain.dto.TemplateDto;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface TemplateMapper {
+public interface TemplateMapper extends AuditableMapper<Template, TemplateDto> {
     Template toDao(TemplateDto templateDto);
 
     TemplateDto toDto(Template template);
