@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
         user.setToken(token);
         var savedUser = userRepository.save(user);
         var variables = new HashMap<String, Object>();
-        variables.put("url", "http://localhost:8080/api/users/confirm?token=" + token);
+        variables.put("url", "http://localhost:8080/api/v1/users/confirm?token=" + token);
         mailService.send(user.getEmail(), "NEW_USER_WELCOME", variables, null, null);
         return savedUser;
     }

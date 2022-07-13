@@ -4,6 +4,7 @@ import com.pablito.shop.domain.dto.ErrorDto;
 import com.pablito.shop.domain.dto.FieldErrorDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -50,6 +51,13 @@ public class AdviceController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDto handleConstraintViolationException(ConstraintViolationException e) {
         log.warn("Wrong users data", e);
+        return new ErrorDto(e.getMessage());
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorDto handleBadCredentialsException(BadCredentialsException e) {
+        log.warn("Wrong credentials", e);
         return new ErrorDto(e.getMessage());
     }
 }

@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
 @SuperBuilder
 public abstract class AuditableDto {
 
